@@ -36,11 +36,23 @@ class CoursesCategory extends Model
             ->where('IsEnable',true)->orderByDesc('Order');
     }
 
+    public function ChildrenPanel()
+    {
+        return $this->hasMany(self::class,'parent_id','id')
+            ->where('IsEnable',true)->orderByDesc('Order');
+    }
+
     public function Courses()
     {
         return $this->belongsToMany(Course::class,'course_categories',
             'category_id','course_id')
             ->where('IsEnable',true)->orderByDesc('Order');
+    }
+
+    public function CoursesPanel()
+    {
+        return $this->belongsToMany(Course::class,'course_categories',
+            'category_id','course_id')->orderByDesc('Order');
     }
 
     /************static*************/

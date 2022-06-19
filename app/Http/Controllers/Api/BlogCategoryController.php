@@ -27,7 +27,7 @@ class BlogCategoryController extends Controller
 
     public static function Blogs(Request $request,BlogCategory $blogCategory,$limit=10,$where=null)
     {
-        $blogs = $blogCategory->Blogs()->get();
+        $blogs = $blogCategory->Blogs($limit)->get();
 
         $response = [
             'status' => 1,

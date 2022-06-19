@@ -30,11 +30,18 @@ class BlogCategory extends Model
         ];
     }
 
-    public function Blogs()
+    public function Blogs($limit=10)
     {
         return $this->belongsToMany(Blog::class,'blog_category',
             'category_id','blog_id')
-            ->where('IsEnable',true)->orderByDesc('Order');
+            ->where('IsEnable',true)->orderByDesc('Order')->limit($limit);
+    }
+
+    public function BlogsPanel($limit=10)
+    {
+        return $this->belongsToMany(Blog::class,'blog_category',
+            'category_id','blog_id')
+            ->orderByDesc('Order')->limit($limit);
     }
 
     public static function GetCategories($limit = 5,$where=null)
@@ -55,6 +62,34 @@ class BlogCategory extends Model
             ['IsEnable' , true],
             ['IsSpecial' , true]
         ])->orderByDesc('Order')->paginate($limit);
+    }
+
+    public static function Parents($category,$array,$where = null)
+    {
+        if($where == null){
+            $category = self::Parent($category)->first();
+            if($category == null){
+                return $array;
+            }else{
+                $array[] = $category;
+                return self::Parents($category,$array);
+            }
+        }
+        $category = $category->Parent;
+        if($category == null){
+            return $array;
+        }else{
+            $array[] = $category;
+            return self::Parents($category,$array);
+        }
+
+    }
+
+    public static function Parent(BlogCategory $category){
+        return self::query()->where([
+            'IsEnable' => true,
+            'id' => $category->parent_id
+        ]);
     }
     /**end**/
 }

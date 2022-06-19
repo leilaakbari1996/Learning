@@ -19,13 +19,12 @@ class Banner extends Model
         'Order'
     ];
 
-    public static function BannerEnable($value = true,$limit=3,$where=null)
+    public static function BannerEnable($limit=3,$where=null)
     {
+
         if(!$where){
-            return Banner::query()->where('IsEnable',$value)
-                ->orderByDesc('Order')->limit($limit)->get();
+            return self::query()->orderByDesc('Order')->limit($limit)->get();
         }
-        return Banner::query()->where('IsEnable',$value)
-            ->orderByDesc('Order')->where($where)->limit($limit)->get();
+        return self::query()->orderByDesc('Order')->where($where)->limit($limit)->get();
     }
 }

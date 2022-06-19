@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 class BannerController extends Controller
 {
 
-    public static function BannerEnable(Request $request,$limit=3)
+    public static function BannerEnable(Request $request,$limit=3,$where=null)
     {
-        $banners = Banner::BannerEnable(true,$limit);
+        $banners = Banner::BannerEnable($limit,$where);
         $response = [
             'status' => 1,
             'text' => "",
@@ -25,4 +25,6 @@ class BannerController extends Controller
 
         return $response;
     }
+
+
 }

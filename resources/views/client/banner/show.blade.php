@@ -8,13 +8,7 @@
     <title>{{Head::GetTitle()}}</title>
 </head>
 <body>
-@if($parent)
-    Parent:{{$parent->id}} / Child:(Main):
-@endif
-
-{{$blogCategory->id}}
-<br>
-{{show_array('Blogs This Category',$blogs,'blog')}}
-<br>
+{{$banner->Title}}
+<br><br><br>
 </body>
 </html>

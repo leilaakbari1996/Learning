@@ -175,6 +175,11 @@ class Blog extends Model
             'blog_id','category_id')->
         where('IsEnable',true)->orderByDesc('Order');
     }
+    public function CategoriesPanel()
+    {
+        return $this->belongsToMany(BlogCategory::class,'blog_category',
+            'blog_id','category_id')->orderByDesc('Order');
+    }
 
 
     /**static*/
@@ -186,6 +191,15 @@ class Blog extends Model
         }
         return self::query()->where('IsEnable',true)
             ->where($where)->orderByDesc('Order')->limit($limit);
+    }
+
+    public static function GetBlogsPanel($limit = 5,$where=null)
+    {
+        if(!$where){
+            return self::query()->orderByDesc('Order')
+                ->limit($limit);
+        }
+        return self::query()->where($where)->orderByDesc('Order')->limit($limit);
     }
 
     public function BlogRelated($limit = 5,$where = null)

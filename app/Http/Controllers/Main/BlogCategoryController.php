@@ -25,10 +25,15 @@ class BlogCategoryController extends Controller
         if(empty($blogCategory)){
             abort(404);
         }
+        $parent = $blogCategory->parent_id;
+        if($parent) {
+            $parent = BlogCategoryApi::GetBlogCategories($request, 1, ['id' => $parent])['data'][0];
+        }
 
         $blogs = BlogCategoryApi::Blogs($request,$blogCategory,10)['data'];
 
 
-        return  view('client.categoryBlog.show',compact('blogCategory','blogs'));
+        return  view('client.categoryBlog.show',compact('blogCategory','blogs'
+        ,'parent'));
     }
 }

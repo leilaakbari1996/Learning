@@ -14,7 +14,7 @@ class BannerController extends Controller
     {
         \Head::SetTitle('لیست بنر ها');
 
-        $banners = Banner::BannerEnable(true,20);
+        $banners = Banner::BannerEnable(20);
 
         return view('panel.banner.index',compact('banners'));
     }

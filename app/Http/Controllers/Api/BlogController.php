@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Models\BlogCategory;
 use App\Models\Course;
+use App\Models\CoursesCategory;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -120,6 +122,35 @@ class BlogController extends Controller
             'status' => 1,
             'text' => "",
             "data" => $array
+        ];
+
+        if($request->wantsJson()){
+            return response()->json($response);
+        }
+
+        return $response;
+    }
+
+    public static function GetCategoriesBlog(Request $request,Blog $blog)
+    {
+        $result = [];
+        $category = $blog->Categories()->first();
+        if(!$category){
+            $result = [];
+        }else{
+            $result [] = $category;
+            $parents = BlogCategory::Parents($category,[]);
+            foreach ($parents as $parent){
+                $result [] = $parent;
+            }
+            $result = array_reverse($result);
+        }
+
+
+        $response = [
+            'status' => 1,
+            'text' => "",
+            "data" => $result
         ];
 
         if($request->wantsJson()){

@@ -41,7 +41,7 @@
     <hr>
 @endforeach
 
-{{show_array_tag('Banners',$banners,'banner')}}
+{{show_array_banner('Banners',$banners,'banner')}}
 {{show_array('Special Courses',$specialCourses,'course')}}
 {{show_array('Special Categories',$specialCategories,'category')}}
 {{showByColumn('Free Courses',$specialCategories,$freeCourses)}}
@@ -49,6 +49,9 @@
 {{showByColumn('Most Buys',$specialCategories,$mostSoldCourses)}}
 <a href="{{route('client.guidance.index')}}">All Guidance</a>
 {{show_array('Guidance Special',$guidancesSpecial,'guidance')}}
+<hr>
+{{show_array('Categories Blog',$categoriesBlog,'blogCategory')}}
+<hr>
 <a href="{{route('client.blog.index')}}">All Blog</a>
 {{show_array('New Blog',$blogsNew,'blog')}}
 <a href="{{route('client.podcast.index')}}">All Podcast</a>

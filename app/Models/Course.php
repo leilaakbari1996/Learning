@@ -59,9 +59,6 @@ class Course extends Model
     public function RelatedPodcast($limit = 5)
     {
         $podcasts = $this->RelatedPodcasts()->limit($limit)->get();
-        /*$this->belongsToMany(Podcast::class,'courses_related_podcast',
-            'course_id','podcast_id')->where('IsEnable',true)->
-        orderByDesc('Order')*/
 
         if($podcasts->count() < $limit){
             $l = $limit - $podcasts->count();
@@ -90,10 +87,6 @@ class Course extends Model
     {
         $courses = $this->RelatedCourses($limit,$where)->whereNotIn('courses.id',[$this->id])->
         limit($limit)->get();
-            /*$this->belongsToMany(self::class,'course_related',
-            'course_id','course_related_id')
-            ->where('IsEnable',true)*/
-
 
         if($courses->count() < $limit){
             $categories = $this->Categories;
@@ -105,14 +98,6 @@ class Course extends Model
 
     }
 
-    /*public function RelatedCoursePanel()
-    {
-        return $this->belongsToMany(self::class,'course_related',
-            'course_id','course_related_id');
-
-
-    }*/
-
     public function RelatedGuidances($limit = 5, $where = null)
     {
         if(!$where){
@@ -122,13 +107,6 @@ class Course extends Model
         return  $this->morphedByMany(Guidance::class,'relatedable','related_course')
             ->where('IsEnable',true)->where($where)->orderByDesc('Order')->limit($limit);
     }
-    /*
-     *  public function RelatedGuidance($limit=5)
-    {
-        return $this->belongsToMany(Guidance::class,'course_guidance',
-            'course_id','guidance_id')->where('IsEnable',true)
-            ->orderByDesc('Order')->limit($limit);
-    }*/
 
     public function RelatedBlog($limit = 10,$where=null)
     {
@@ -139,13 +117,6 @@ class Course extends Model
         return  $this->morphedByMany(Blog::class,'relatedable','related_course')
             ->where('IsEnable',true)->where($where)->limit($limit);
     }
-
-    /*public function RelatedBlog($limit = 5)
-    {
-        return $this->belongsToMany(Blog::class,'courses_related_blog',
-            'course_id','blog_id')->where('IsEnable',true)
-            ->orderByDesc('Order')->limit($limit);
-    }*/
 
     public function Order()
     {
@@ -203,11 +174,11 @@ class Course extends Model
         where('IsEnable',true)->orderByDesc('Order');
     }
 
-    /*public function RelatedBlogsPanel()
+    public function CategoriesPanel()
     {
-        return $this->belongsToMany(Blog::class,'courses_related_blog',
-            'course_id','blog_id');
-    }*/
+        return $this->belongsToMany(CoursesCategory::class,'course_categories',
+            'course_id','category_id')->orderByDesc('Order');
+    }
 
     public function BlogRelated($limit = 5)
     {
@@ -216,24 +187,12 @@ class Course extends Model
             ->orderByDesc('Order')->limit($limit)->get();
     }
 
-    /*public function RelatedPodcastsPanel()
-    {
-        return  $this->belongsToMany(Podcast::class,'courses_related_podcast',
-            'course_id','podcast_id');
-    }*/
-
     public function Guidances()
     {
         return $this->belongsToMany(Guidance::class,'course_guidance',
             'course_id','guidance_id')->where('IsEnable',true)
             ->orderByDesc('Order');
     }
-
-    /*public function RelatedGuidancesPanel()
-    {
-        return $this->belongsToMany(Guidance::class,'course_guidance',
-            'course_id','guidance_id');
-    }*/
 
     public function Tags($limit=1000)
     {
@@ -255,17 +214,17 @@ class Course extends Model
         return  $this->SaveCourses()->where('user_id',$user->id)->exists();
     }
 
-    /*public function CategoriesPanel()
-    {
-        return $this->belongsToMany(CoursesCategory::class,'course_categories',
-            'course_id','category_id');
-    }*/
-
     public function CategoriesCourse()
     {
         return $this->belongsToMany(CoursesCategory::class,'course_categories',
             'course_id','category_id')->
         where('IsEnable',true)->orderByDesc('Order');
+    }
+
+    public function CategoriesCoursePanel()
+    {
+        return $this->belongsToMany(CoursesCategory::class,'course_categories',
+            'course_id','category_id')->orderByDesc('Order');
     }
 
     public function VideosTitile()
@@ -337,6 +296,14 @@ class Course extends Model
             return self::GetAllCoursesByEnable(true)->whereNotIn($ids)->limit($limit)->get();
         }
         return self::GetAllCoursesByEnable(true)->where($column,true)->whereNotIn('id',$ids)->limit($limit)->get();
+    }
+
+    public static function GetCoursesPanel($ids,$limit,$column = null)
+    {
+        if (!$column){
+            return self::query()->whereNotIn($ids)->limit($limit)->get();
+        }
+        return self::query()->where($column,true)->whereNotIn('id',$ids)->limit($limit)->get();
     }
 
     public static function GetTheMostCourses($categories,$column,$limit = 5)

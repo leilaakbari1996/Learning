@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Api\BlogController as BlogApi;
+use App\Http\Controllers\Api\CourseController as CourseApi;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use Illuminate\Http\Request;
@@ -31,8 +32,9 @@ class BlogController extends Controller
         $guidancesRelated = BlogApi::RelatedGuidance($request,$blog,5)['data'];
         $tags = BlogApi::GetTag($request,$blog,4)['data'];
         $comments = BlogApi::GetComments($request,$blog)['data'];
+        $blogCategory = BlogApi::GetCategoriesBlog($request,$blog)['data'];
 
         return  view('client.blog.show',compact('blog','blogsRelated','coursesRelated','tags','comments','podcastsRelated',
-        'guidancesRelated'));
+        'guidancesRelated','blogCategory'));
     }
 }

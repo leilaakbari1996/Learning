@@ -8,6 +8,7 @@
     <title>{{Head::GetTitle()}}</title>
 </head>
 <body>
+{{arrange('Parent',$blogCategory)}}/blog:{{$blog->id}}
 <h1>Blog:{{$blog->id}}</h1>
 {{show_array('Tags',$tags,'tag')}}
 {{show_array('Blog Related',$blogsRelated,'blog')}}

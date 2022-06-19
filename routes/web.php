@@ -33,6 +33,7 @@ use \App\Http\Controllers\Main\PodcastController as PodcastMain;
 use \App\Http\Controllers\Main\ContactUsController as ContactMain;
 use \App\Http\Controllers\Main\VideoTitleController as VideoTitleMain;
 use \App\Http\Controllers\Main\BlogCategoryController as BlogCategoryMain;
+use \App\Http\Controllers\Main\BannerController as BannerMain;
 
 use \App\Http\Controllers\Api\UserController as UserApi;
 use \App\Http\Controllers\Api\CouponController as CouponApi;
@@ -55,6 +56,9 @@ use \App\Http\Controllers\Auth\LoginController as LoginAuth;
 
 
 Route::prefix('')->name('client.')->group(function () {
+
+    Route::resource('banner',BannerMain::class);
+
     Route::get('/', [HomeMain::class, 'index']);
 
     Route::prefix('/api')->name('api.')->group(function (){

@@ -378,6 +378,18 @@ function show_array_tag($title,$array,$url)
     }
 }
 
+function show_array_banner($title,$array,$url)
+{
+    echo '<h1>' . $title . '</h1>';
+    foreach ($array as $item) {
+        if(!empty($item)){
+            $route = 'client.'.$url.'.show';
+            echo'<h5><a href="'.route($route,$item).'"> '.$item->Title.'</a></h5>';
+
+        }
+    }
+}
+
 function show_array_panel($title,$array,$url)
 {
 
